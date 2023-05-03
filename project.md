@@ -31,6 +31,15 @@ This will call a function each time an element is clicked on the chart. You just
 </pre>
 
 
+## Catching the event in the page
+
+Just use a Subscribe Handler  Action (https://doc.convertigo.com/documentation/latest/reference-manual/convertigo-objects/mobile-application/components/control-components/subscribe-handler/) on the page and configure it to listen to the 'chartCliked' event
+
+In the sample you will see that we just display a toast with the data. Of course customize to call any back-end sequence you need.
+
+
+
+
 
 
 

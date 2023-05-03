@@ -18,16 +18,16 @@ This will call a function each time an element is clicked on the chart. You just
 * In the page class code at the end find the  	/*Begin_c8o_PageFunction*/ /*End_c8o_PageFunction*/ section
 * Between the BeginXXX and End XXX write this code :
 <pre>
-			/*Begin_c8o_PageFunction*/
-			chartOnClick(event, clickedElements, chart) {
-				const { dataIndex, raw } = clickedElements[0].element.$context
-		  		const barLabel = event.chart.data.labels[dataIndex]
-		  		this.label = barLabel;
-		  		this.dataValue = raw;
-		  		
-				this.getInstance(Events).publish('chartClicked', { label: barLabel, value: raw});
-			}
-			/*End_c8o_PageFunction*/
+	/*Begin_c8o_PageFunction*/
+	chartOnClick(event, clickedElements, chart) {
+		const { dataIndex, raw } = clickedElements[0].element.$context
+  		const barLabel = event.chart.data.labels[dataIndex]
+  		this.label = barLabel;
+  		this.dataValue = raw;
+  		
+		this.getInstance(Events).publish('chartClicked', { label: barLabel, value: raw});
+	}
+	/*End_c8o_PageFunction*/
 </pre>
 
 

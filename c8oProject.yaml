@@ -1,6 +1,38 @@
 ↑convertigo: 8.2.0.m006
 ↓sample_charts [core.Project]: 
-  comment: Convertigo NGX builder Project
+  comment: |
+    'A Sample to show how Charts can be interactive. User can click on a Chart element and this will generate an Event that can be caught in the page. The app is free to use this event to display a message (Shown in the sample) or to call a Back end Sequence to process data according to the event ..
+    
+    ## How does this work ? 
+    The magic  comes from the Chart configuration see the _Chart Options_ property and set it to :
+    
+    <pre>
+    	{''plugins'':{''title'':{''display'': true,''text'': ''My Chart Title''}, ''responsive'': true, ''maintainAspectRatio'': false}, onClick: this.chartOnClick.bind(this) }
+    </pre>
+    
+    Note the _onClick: onClick: this.chartOnClick.bind(this)_
+    
+    This will call a function each time an element is clicked on the chart. You just have to implement this function in your page class :
+    
+    * Right Click on Page -> Edit Page Class
+    * In the page class code at the end find the  	/*Begin_c8o_PageFunction*/ /*End_c8o_PageFunction*/ section
+    * Between the BeginXXX and End XXX write this code :
+    <pre>
+    			/*Begin_c8o_PageFunction*/
+    			chartOnClick(event, clickedElements, chart) {
+    				const { dataIndex, raw } = clickedElements[0].element.$context
+    		  		const barLabel = event.chart.data.labels[dataIndex]
+    		  		this.label = barLabel;
+    		  		this.dataValue = raw;
+    		  		
+    				this.getInstance(Events).publish(''chartClicked'', { label: barLabel, value: raw});
+    			}
+    			/*End_c8o_PageFunction*/
+    </pre>
+    
+    
+    
+    '
   corsOrigin: =Origin
   ↓void [connectors.SqlConnector]: 🗏 connectors/void.yaml
   ↓Project_reference [references.ProjectSchemaReference]: 

@@ -6,15 +6,29 @@ scriptContent:
     - ↑classname: com.twinsoft.convertigo.beans.common.FormatedContent
     - com.twinsoft.convertigo.beans.common.FormatedContent: 
       →: |
-        /*Begin_c8o_PageImport*/
+        '/*Begin_c8o_PageImport*/
+        import { Chart } from ''chart.js''
         /*End_c8o_PageImport*/
         /*Begin_c8o_PageDeclaration*/
+        	public label = '''';
+        	public dataValue = '''';
         	/*End_c8o_PageDeclaration*/
         /*Begin_c8o_PageConstructor*/
         		/*End_c8o_PageConstructor*/
         /*Begin_c8o_PageFunction*/
+        	chartOnClick(event, clickedElements, chart) {
+        		const { dataIndex, raw } = clickedElements[0].element.$context
+          		const barLabel = event.chart.data.labels[dataIndex]
+          		this.label = barLabel;
+          		this.dataValue = raw;
+          		
+          		// exemple to publish an event
+          		// first param topic name
+          		// second param data returned by event
+        		this.getInstance(Events).publish(''chartClicked'', { label: barLabel, value: raw});
+        	}
         	/*End_c8o_PageFunction*/
-        
+        '
 segment: path-to-xfirst
 title: First page
 ↓Header [ngx.components.UIDynamicElement-1491634212350]: 
@@ -60,6 +74,23 @@ title: First page
   beanData: '{"ionBean":"Content"}'
   comment: Page content
   tagName: ion-content
+  ↓H1 [ngx.components.UIDynamicElement-1683033219504]: 
+    beanData: '{"ionBean":"Heading1"}'
+    tagName: h1
+    ↓some_text [ngx.components.UIText-1683033219503]: 
+      textValue: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.ngx.components.MobileSmartSourceType
+          - MobileSmartSourceType: 'script:(this.label.length > 0) ? this.label + '' - ''  + this.dataValue : '''''
+  ↓Chart [ngx.components.UIDynamicElement-1683032282505]: 
+    beanData: |
+      '{
+       "ionBean": "Charts",
+       "datasets": "script:[\r\n  { \r\n    ''label'': ''My first dataset'', \r\n    ''data'': [0, 10, 5, 2, 20, 30, 45], \r\n    ''backgroundColor'': ''rgb(0, 127, 255)'', \r\n    ''borderColor'': ''rgb(0, 0, 255)'',\r\n    ''order'': 0 \r\n  }, \r\n  { \r\n    ''label'': ''My second dataset'', \r\n    ''data'': [15, 45, 10, 20, 65, 38, 88], \r\n    ''backgroundColor'': ''rgb(136, 77, 167)'', \r\n    ''borderColor'': ''rgb(102,0, 153)'',\r\n    ''order'': 1,\r\n    ''type'': ''line''\r\n  }\r\n]",
+       "Height": "plain:100",
+       "Options": "script:{''plugins'':{''title'':{''display'': true,''text'': ''My Chart Title''}, ''responsive'': true, ''maintainAspectRatio'': false}, onClick: this.chartOnClick.bind(this) }"
+      }'
+    tagName: canvas
 ↓Footer [ngx.components.UIDynamicElement-1491634242460]: 
   beanData: '{"ionBean":"Footer"}'
   comment: Page footer
@@ -89,3 +120,8 @@ title: First page
             - xmlizable: 
               - ↑classname: com.twinsoft.convertigo.beans.ngx.components.MobileSmartSourceType
               - MobileSmartSourceType: plain:Action 2
+↓Subscribe_Handler [ngx.components.UIEventSubscriber-1683110890615]: 
+  topic: chartClicked
+  ↓Toast [ngx.components.UIDynamicAction-1683110903359]: 
+    beanData: '{"ionBean":"ToastAction","message":"script:JSON.stringify(out)"}'
+    tagName: Toast
